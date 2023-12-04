@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 # Parâmetros 
 url = 'https://www.cnnbrasil.com.br/'
 headers = {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"}
-shouldVisitPagesLimit = 3
+shouldVisitPagesLimit = 20
 
 # Listas e variáveis
 shouldVisitPages = []
@@ -75,9 +75,10 @@ for i in range(shouldVisitPagesLimit):
                             print("> Limite máximo de páginas atingido, interrompendo coleta de novas páginas")
                             break
         # Coleta tags <h1>
-        #for h1 in soup.find_all('h1'):
-            #tagH1 = h1.get('h1')
-            #print(tagH1)
+        content = ''
+        for h1 in soup.find_all('h1'):
+            content += "<h1>" + h1.text.strip()
+        visitedPagesContent.append(content)
     else:
         countFailedVisitedPages += 1
         print("Não foi possível acessar a página")
@@ -86,7 +87,8 @@ for i in range(shouldVisitPagesLimit):
 print("\n######## RELATÓRIO ########")
 print(">>> Quantidade de páginas visitadas com sucesso: " + str(countSuccessVisitedPages))
 print(">>> Quantidade de falhas no acesso de páginas: " + str(countFailedVisitedPages))
-print(">>> Páginas visitadas: ")
-print(visitedPages)
-print(">>> Status das páginas visitadas: ")
-print(visitedPagesStatusCode)
+
+# Cria relatório em excel
+report = {"websites": visitedPages, "status": visitedPagesStatusCode, "content": visitedPagesContent}
+dataframe = pd.DataFrame(report)
+dataframe.to_excel('webscraping_report.xlsx')
