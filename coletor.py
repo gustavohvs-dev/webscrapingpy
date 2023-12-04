@@ -88,6 +88,13 @@ print("\n######## RELATÓRIO ########")
 print(">>> Quantidade de páginas visitadas com sucesso: " + str(countSuccessVisitedPages))
 print(">>> Quantidade de falhas no acesso de páginas: " + str(countFailedVisitedPages))
 
+# Cria relatório em txt
+arquivo = open("webscraping_report.txt", 'w+')
+arquivo.writelines('\n######## RELATÓRIO ########')
+arquivo.writelines('\n>>> Quantidade de páginas visitadas com sucesso: ' + str(countSuccessVisitedPages))
+arquivo.writelines('\n>>> Quantidade de falhas no acesso de páginas: ' + str(countFailedVisitedPages))
+arquivo.close()
+
 # Cria relatório em excel
 report = {"websites": visitedPages, "status": visitedPagesStatusCode, "content": visitedPagesContent}
 dataframe = pd.DataFrame(report)
