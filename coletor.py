@@ -1,0 +1,92 @@
+import requests
+import pandas as pd
+from bs4 import BeautifulSoup
+
+# Parâmetros 
+url = 'https://www.cnnbrasil.com.br/'
+headers = {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"}
+shouldVisitPagesLimit = 3
+
+# Listas e variáveis
+shouldVisitPages = []
+visitedPages = []
+visitedPagesStatusCode = []
+visitedPagesContent = []
+isLimitReached = False
+shouldVisitPagesIndex = 0
+countSuccessVisitedPages = 0
+countFailedVisitedPages = 0
+
+# Busca inicial
+site = requests.get(url, headers=headers)
+soup = BeautifulSoup(site.content, 'html.parser')
+
+# Busca novos links
+if(site.status_code == 200):
+    if(isLimitReached == False):
+        for a in soup.find_all('a', href=True):
+            link = a.get('href')
+            belongsUrl = url in link
+            if(belongsUrl == True):
+                try:
+                    pageIndex = shouldVisitPages.index(link)
+                    print("- Página já existente na lista de pesquisa: " + link)
+                except:
+                    if(len(shouldVisitPages) < shouldVisitPagesLimit):
+                        shouldVisitPages.append(link)
+                        print("+ Nova página adicionada na lista de pesquisa: " + link)
+                    else:
+                        isLimitReached = True
+                        print("Limite máximo de páginas atingido, interrompendo coleta de novas páginas")
+                        break
+else:
+    print("Não foi possível acessar a página")
+
+# Inicia a visitação em cada página armazenada
+for i in range(shouldVisitPagesLimit):
+    
+    # Busca
+    site = requests.get(shouldVisitPages[i], headers=headers)
+    soup = BeautifulSoup(site.content, 'html.parser')
+    print("Visitando página: " + shouldVisitPages[i])
+    visitedPages.append(shouldVisitPages[i])
+
+    # Coleta o status da página
+    statusCode = site.status_code
+    visitedPagesStatusCode.append(site.status_code)
+
+    # Busca novos links
+    if(statusCode == 200):
+        countSuccessVisitedPages += 1
+        if(isLimitReached == False):
+            for a in soup.find_all('a', href=True):
+                link = a.get('href')
+                belongsUrl = url in link
+                if(belongsUrl == True):
+                    try:
+                        pageIndex = shouldVisitPages.index(link)
+                        print("- Página já existente na lista de pesquisa: " + link)
+                    except:
+                        if(len(shouldVisitPages) < shouldVisitPagesLimit):
+                            shouldVisitPages.append(link)
+                            print("+ Nova página adicionada na lista de pesquisa: " + link)
+                        else:
+                            isLimitReached = True
+                            print("> Limite máximo de páginas atingido, interrompendo coleta de novas páginas")
+                            break
+        # Coleta tags <h1>
+        #for h1 in soup.find_all('h1'):
+            #tagH1 = h1.get('h1')
+            #print(tagH1)
+    else:
+        countFailedVisitedPages += 1
+        print("Não foi possível acessar a página")
+
+# Exibe relatório no terminal
+print("\n######## RELATÓRIO ########")
+print(">>> Quantidade de páginas visitadas com sucesso: " + str(countSuccessVisitedPages))
+print(">>> Quantidade de falhas no acesso de páginas: " + str(countFailedVisitedPages))
+print(">>> Páginas visitadas: ")
+print(visitedPages)
+print(">>> Status das páginas visitadas: ")
+print(visitedPagesStatusCode)
