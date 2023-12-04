@@ -1,4 +1,4 @@
 
 ######## RELATÓRIO ########
->>> Quantidade de páginas visitadas com sucesso: 5000
+>>> Quantidade de páginas visitadas com sucesso: 100
 >>> Quantidade de falhas no acesso de páginas: 0

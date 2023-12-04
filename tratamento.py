@@ -2,9 +2,9 @@ import pandas as pd
 
 # Parâmetros 
 reportPath = 'webscraping_report.xlsx'
-removeCharsString = '!?"@#$%¨&*()-_=+;:.,/[]´`{^}~|<>”“1234567890'
-removeStopWords = ["", "\\n", "de", "Ao", "a", "o", "que", "e", "é", "do", "da", "de", "dos", "das", "em", "um", "para", "com", "não", "uma", "os", "no", "se",
-    "na", "por", "mais", "as", "dos", "como", "mas", "ao", "ele", "das", "à", "seu", "sua", "ou", "quando",
+removeCharsString = '!?"@#$%¨&*()-_=+;:.,/[]´`{^}~|<>”“1234567890–ªº'
+removeStopWords = [" ", "", "de", "Ao", "a", "o", "que", "e", "é", "do", "da", "de", "dos", "das", "em", "um", "para", "com", "não", "uma", "os", "no", "se",
+    "na", "por", "mais", "as", "dos", "como", "mas", "ao", "ele", "das", "à", "seu", "sua", "ou", "quando", "fazer",
     "muito", "nos", "já", "eu", "também", "só", "pelo", "pela", "até", "isso", "ela", "entre", "depois", "sem",
     "mesmo", "aos", "seus", "quem", "nas", "me", "esse", "eles", "você", "essa", "num", "nem", "suas", "meu",
     "às", "minha", "numa", "pelos", "elas", "qual", "nós", "lhe", "deles", "essas", "esses", "pelas", "este",
@@ -23,9 +23,9 @@ removeStopWords = ["", "\\n", "de", "Ao", "a", "o", "que", "e", "é", "do", "da"
     "teriam", "A", "O", "CNN", "faz", "fazer", "feito", "eu", "me", "tu", "te", "você", "ele", "ela", "nós", "nos", "vós", "vos", "eles", "elas", "meu", "minha", 
     "meus", "minhas", "teu", "tua", "teus", "tuas", "seu", "sua", "seus", "suas", "nosso", "nossa", "nossos", 
     "nossas", "vosso", "vossa", "vossos", "vossas", "meu", "meus", "minha", "minhas", "teu", "teus", "tua", 
-    "tuas", "seu", "seus", "sua", "suas", "nosso", "nossos", "nossa", "nossas", "vosso", "vossos", "vossa", 
-    "vossas", "me", "mim", "comigo", "te", "ti", "contigo", "você", "o", "a", "lhe", "nos", "nos", "convosco", 
-    "vos", "vos", "os", "as", "lhes", "se", "si", "consigo", "após", "no"]
+    "tuas", "seu", "seus", "sua", "suas", "nosso", "nossos", "nossa", "nossas", "vosso", "vossos", "vossa", "The", "the", "À", "à",
+    "vossas", "me", "mim", "comigo", "te", "ti", "contigo", "você", "o", "a", "lhe", "nos", "nos", "convosco", "ser", "mais", "vai", "G", "é", "quer"
+    "vos", "vos", "os", "as", "lhes", "se", "si", "consigo", "após", "no", "CNN", "R", "que", "diz", "dizem", "sobre", "tudo", "texto", "textos"]
 
 # Listas e variáveis
 fix1 = []
